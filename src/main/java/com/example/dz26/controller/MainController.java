@@ -1,11 +1,14 @@
 package com.example.dz26.controller;
 
+import com.example.dz26.domain.AutoBlog;
+import com.example.dz26.service.AutoBlogService;
 import com.example.dz26.domain.Client;
 import com.example.dz26.domain.Message;
 import com.example.dz26.repos.MessageRepo;
 import com.example.dz26.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,19 +25,22 @@ public class MainController {
     @Autowired
     private ClientService service;
 
-    /*@GetMapping("/")
-    public String greeting(Map<String, Object> model) {
-        return "greeting";
-    }*/
+    @Autowired
+    private AutoBlogService serviceAuto;
 
-    @GetMapping("/")
+    @GetMapping("/autoblog")
+    public String greeting(Map<String, Object> model) {
+        return "autoblog";
+    }
+
+    /*@GetMapping("/")
     public String main(Map<String, Object> model) {
         Iterable<Message> messages = messageRepo.findAll();
 
         model.put("messages", messages);
 
         return "index";
-    }
+    }*/
 
     @RequestMapping("/new")
     public String showNewClientForm(Model model){
@@ -43,18 +49,53 @@ public class MainController {
         return "new_client";
     }
 
+    @RequestMapping("/autoblog_new")
+    public String showNewAutoBlogForm(Model model){
+        AutoBlog autoBlog = new AutoBlog();
+        model.addAttribute("autoBlog", autoBlog);
+        return "autoblog_new";
+    }
+
+    @RequestMapping(value = "/autoblog_save", method = RequestMethod.POST)
+    public String saveAutoBlog(@ModelAttribute("autoBlog") AutoBlog autoBlog){
+        serviceAuto.save(autoBlog);
+        return "redirect:/autoblog_panel";
+    }
+
+    @RequestMapping("/autoblog")
+    public String viewHomePageAuto(Model model, @Param("keyword") String keyword){
+        List<AutoBlog> listAutoBlog = serviceAuto.listAll(keyword);
+        model.addAttribute("listAutoBlog", listAutoBlog);
+        model.addAttribute("keyword", keyword);
+        return "autoblog";
+    }
+
+    /*@RequestMapping("/autoblog_panel")
+    public String viewHomePagePanel(Model model, @Param("keyword") String keyword){
+        List<AutoBlog> listAutoBlog = serviceAuto.listAll(keyword);
+        model.addAttribute("listAutoBlog", listAutoBlog);
+        model.addAttribute("keyword", keyword);
+        return "autoblog_panel";
+    }*/
+
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String saveClient(@ModelAttribute("client") Client client){
         service.save(client);
         return "redirect:/";
     }
 
-    @RequestMapping("/main")
-    public String viewHomePage(Model model, @Param("keyword") String keyword){
+    @RequestMapping("/")
+    public String viewHomePageAdmin(Model model, @Param("keyword") String keyword, Authentication authResult){
+        String role = authResult.getAuthorities().toString();
         List<Client> listClient = service.listAll(keyword);
         model.addAttribute("listClient", listClient);
         model.addAttribute("keyword", keyword);
-        return "index";
+        if(role.contains("ADMIN")) {
+            return "indexADMIN";
+        }
+        else{
+            return "indexUSER";
+        }
     }
     @RequestMapping("/edit/{id}")
     public ModelAndView showEditClientFrom(@PathVariable(name="id") Long id){
@@ -82,6 +123,6 @@ public class MainController {
 
         model.put("messages", messages);
 
-        return "index";
+        return "indexADMIN";
     }
 }

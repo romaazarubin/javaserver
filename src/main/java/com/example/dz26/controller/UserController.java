@@ -1,4 +1,4 @@
-package com.example.dz26.controller;
+/*package com.example.dz26.controller;
 
 import com.example.dz26.domain.Role;
 import com.example.dz26.domain.User;
@@ -25,7 +25,7 @@ public class UserController {
     public String userList(Model model) {
         model.addAttribute("users", userRepo.findAll());
 
-        return "userList.html";
+        return "userList";
     }
 
     @GetMapping("{user}")
@@ -60,4 +60,4 @@ public class UserController {
 
         return "redirect:/user";
     }
-}
+}*/
