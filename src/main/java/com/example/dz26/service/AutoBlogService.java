@@ -15,6 +15,37 @@ public class AutoBlogService {
     @Autowired
     private AutoBlogRepo repo;
 
+    public List<AutoBlog> searchAuthor(String keyword) {
+        if (keyword != null) {
+            return repo.searchAuthor(keyword);
+        }
+        return repo.findAll();
+    }
+
+    public List<AutoBlog> searchDate(String keyword) {
+        if (keyword != null) {
+            return repo.searchDate(keyword);
+        }
+        return repo.findAll();
+    }
+    public List<AutoBlog> searchDateAuthor(String keyword) {
+        if (keyword != null) {
+            return repo.searchDateAuthor(keyword);
+        }
+        return repo.findAll();
+    }
+    public List<AutoBlog> searchText(String keyword) {
+        if (keyword != null) {
+            return repo.searchText(keyword);
+        }
+        return repo.findAll();
+    }
+    public List<AutoBlog> searchDateText(String keyword) {
+        if (keyword != null) {
+            return repo.searchDateText(keyword);
+        }
+        return repo.findAll();
+    }
     public List<AutoBlog> listAll(String keyword) {
         if (keyword != null) {
             return repo.search(keyword);

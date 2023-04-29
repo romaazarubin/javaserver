@@ -35,7 +35,7 @@
       <h4>
         Поиск
       </h4>
-      <form th:action="@{/}">
+      <form th:action="@{/autoblog_panel}">
         <input type="text" name="keyword" id="keyword" size="30" th:value="${keyword}" required/>
         <input type="submit" class="btn btn-success btn-sm" value="Поиск"/>
         <input type="button" class="btn btn-warning btn-sm" value="Очистить" id="btnClear"
@@ -63,16 +63,16 @@
     </thead>
     <tbody>
     <tr th:each="autoBlog: ${listAutoBlog}">
-      <th scope="row" class="text-white" th:text="${autoBlog.id}">
+      <th scope="row" class="text-black" th:text="${autoBlog.id}">
         ID отсутствует
       </th>
-      <th scope="row" class="text-white" th:text="${autoBlog.date}">
+      <th scope="row" class="text-black" th:text="${autoBlog.date}">
         Дата публикации отсутствует
       </th>
-      <th scope="row" class="text-white" th:text="${autoBlog.author}">
+      <th scope="row" class="text-black" th:text="${autoBlog.author}">
         Автор отсутствует
       </th>
-      <th scope="row" class="text-white" th:text="${autoBlog.text}">
+      <th scope="row" class="text-black" th:text="${autoBlog.text}">
         Текст отсутствует
       </th>
       <td>
@@ -90,7 +90,7 @@
     </tr>
     </tbody>
   </table>
-  <p class="text-white">
+  <p class="text-black">
     <script type="text/javascript">
       function getRowsColumns() {
         let table = document.getElementById('1')
@@ -103,7 +103,7 @@
     </script>
   </p>
   <a href="/autoblog_new">
-    <button type="button" class="btn btn-primary" data-togge="button" aria-pressed="false" autocomplete="off">
+    <button type="button" class="btn btn-primary text-black" data-togge="button" aria-pressed="false" autocomplete="off">
       Добавить Статью
     </button>
   </a>

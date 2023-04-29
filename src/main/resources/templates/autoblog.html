@@ -35,11 +35,29 @@
       <h4>
         Поиск
       </h4>
-      <form th:action="@{/autoblog}">
-        <input type="text" name="keyword" id="keyword" size="30" th:value="${keyword}" required/>
-        <input type="submit" class="btn btn-success btn-sm" value="Поиск"/>
-        <input type="button" class="btn btn-warning btn-sm" value="Очистить" id="btnClear"
-               onclick="clearSearch()"/>
+      <form method="post" action="filterDate" >
+        <input type="text" name="filter" placeholder="Поиск по дате записи">
+        <button type="submit">Найти</button>
+      </form>
+      <form method="post" action="filterName">
+        <input type="text" name="filter" placeholder="Поиск по автору">
+        <button type="submit">Найти</button>
+      </form>
+      <form method="post" action="filterDateName">
+        <input type="text" name="filter" placeholder="Поиск по дате и автору">
+        <button type="submit">Найти</button>
+      </form>
+      <form method="post" action="filterText">
+        <input type="text" name="filter" placeholder="Поиск по тексту записи">
+        <button type="submit">Найти</button>
+      </form>
+      <form method="post" action="filterDateText">
+        <input type="text" name="filter" placeholder="Поиск по дате и тексту записи">
+        <button type="submit">Найти</button>
+      </form>
+      <form method="post" action="filterALL">
+        <input type="text" name="filter" placeholder="Поиск по всем критериям сразу">
+        <button type="submit">Найти</button>
       </form>
     </div>
   </div>
@@ -63,34 +81,22 @@
     </thead>
     <tbody>
     <tr th:each="autoBlog: ${listAutoBlog}">
-      <th scope="row" class="text-white" th:text="${autoBlog.id}">
+      <th scope="row" class="text-black" th:text="${autoBlog.id}">
         ID отсутствует
       </th>
-      <th scope="row" class="text-white" th:text="${autoBlog.date}">
+      <th scope="row" class="text-black" th:text="${autoBlog.date}">
         Дата публикации отсутствует
       </th>
-      <th scope="row" class="text-white" th:text="${autoBlog.author}">
+      <th scope="row" class="text-black" th:text="${autoBlog.author}">
         Автор отсутствует
       </th>
-      <th scope="row" class="text-white" th:text="${autoBlog.text}">
+      <th scope="row" class="text-black" th:text="${autoBlog.text}">
         Текст отсутствует
       </th>
-      <td>
-        <a th:href="@{'/autoblog_edit/' + ${autoBlog.id}}">
-          <button type="button" class="btn btn-info">
-            Редактировать
-          </button>
-        </a>
-        <a th:href="@{'/autoblog_delete/' + ${autoBlog.id}}">
-          <button type="button" class="btn btn-danger">
-            Удалить
-          </button>
-        </a>
-      </td>
     </tr>
     </tbody>
   </table>
-  <p class="text-white">
+  <p class="text-black">
     <script type="text/javascript">
       function getRowsColumns() {
         let table = document.getElementById('1')
@@ -102,11 +108,6 @@
       getRowsColumns()
     </script>
   </p>
-  <a href="/autoblog_new">
-    <button type="button" class="btn btn-primary" data-togge="button" aria-pressed="false" autocomplete="off">
-      Добавить Статью
-    </button>
-  </a>
 </body>
 </html>
 

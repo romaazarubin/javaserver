@@ -1,5 +1,6 @@
 package com.example.dz26.repos;
 
+import com.example.dz26.domain.AutoBlog;
 import com.example.dz26.domain.Message;
 import org.springframework.data.repository.CrudRepository;
 

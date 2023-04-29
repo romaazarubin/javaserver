@@ -28,20 +28,6 @@ public class MainController {
     @Autowired
     private AutoBlogService serviceAuto;
 
-    @GetMapping("/autoblog")
-    public String greeting(Map<String, Object> model) {
-        return "autoblog";
-    }
-
-    /*@GetMapping("/")
-    public String main(Map<String, Object> model) {
-        Iterable<Message> messages = messageRepo.findAll();
-
-        model.put("messages", messages);
-
-        return "index";
-    }*/
-
     @RequestMapping("/new")
     public String showNewClientForm(Model model){
         Client client = new Client();
@@ -70,13 +56,13 @@ public class MainController {
         return "autoblog";
     }
 
-    /*@RequestMapping("/autoblog_panel")
+    @RequestMapping("/autoblog_panel")
     public String viewHomePagePanel(Model model, @Param("keyword") String keyword){
         List<AutoBlog> listAutoBlog = serviceAuto.listAll(keyword);
         model.addAttribute("listAutoBlog", listAutoBlog);
         model.addAttribute("keyword", keyword);
         return "autoblog_panel";
-    }*/
+    }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String saveClient(@ModelAttribute("client") Client client){
@@ -105,24 +91,23 @@ public class MainController {
         return mav;
     }
 
+    @RequestMapping("/autoblog_edit/{id}")
+    public ModelAndView showEditAutoBlogFrom(@PathVariable(name="id") Long id){
+        ModelAndView mav = new ModelAndView("edit_autoblog");
+        AutoBlog autoBlog = serviceAuto.get(id);
+        mav.addObject("autoBlog", autoBlog);
+        return mav;
+    }
+
     @RequestMapping("/delete/{id}")
     public String deleteClient(@PathVariable(name="id") Long id){
         service.delete(id);
-        return "redirect:/";
+        return "redirect:/autoblog_panel";
     }
 
-    @PostMapping("filter")
-    public String filter(@RequestParam String filter, Map<String, Object> model) {
-        Iterable<Message> messages;
-
-        if (filter != null && !filter.isEmpty()) {
-            messages = messageRepo.findByTag(filter);
-        } else {
-            messages = messageRepo.findAll();
-        }
-
-        model.put("messages", messages);
-
-        return "indexADMIN";
+    @RequestMapping("/autoblog_delete/{id}")
+    public String deleteAutoBlog(@PathVariable(name="id") Long id){
+        serviceAuto.delete(id);
+        return "redirect:/autoblog_panel";
     }
 }
